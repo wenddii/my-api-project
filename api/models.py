@@ -17,10 +17,8 @@ class Task(models.Model):
      ]
      priority = models.CharField(max_length=10,choices=PRIORITY_CHOICES)
      due_date = models.DateField()
-     user=models.ForeignKey(User,on_delete=models.CASCADE)
      created_at=models.DateTimeField(auto_now_add=True)
      updated_at=models.DateTimeField(auto_now=True)
      
-    # Create your models here.
-def __str__(self):
-     return self.title
+     def __str__(self):
+      return self.title
