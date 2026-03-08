@@ -17,10 +17,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from rest_framework.routers import DefaultRouter
-from api.views import TaskViewSet # type: ignore
+from api.views import TaskViewSet  # type: ignore
 
 router = DefaultRouter()
-router.register('tasks', TaskViewSet)
+router.register('tasks', TaskViewSet, basename='task')  # Add basename
 
 urlpatterns = [
     path('admin/', admin.site.urls),
