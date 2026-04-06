@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Category,Product,Cart,CartItem
+from .models import Category,Product,Cart,CartItem,OrderItem
 
 class CategorySerializer(serializers.ModelSerializer):
     product_count = serializers.SerializerMethodField()
@@ -19,7 +19,7 @@ class ProductSerializer(serializers.ModelSerializer):
     def get_is_in_stock(self,obj):
         return obj.stock > 0
     
-class CartItemSeializer(serializers.ModelSerializer):
+class CartItemSerializer(serializers.ModelSerializer):
     Product=ProductSerializer(read_only = True)
     subtotal = serializers.SerializerMethodField()
 
@@ -37,5 +37,12 @@ class CartSerializer(serializers.ModelSerializer):
         fields= ['id','user','items','total_price']
     def get_total_price(self,obj):
         return sum(item.product.price*item.quantity for item in obj.items.all())
+class OrderItemSerializer(serializers.ModelSerializer):
+    product_name = serializers.CharField(source = 'product.name',read_only = True)
 
-    
+    class Meta:
+        model = OrderItem
+        fields = '__all__'
+
+
+

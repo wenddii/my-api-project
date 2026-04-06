@@ -1,5 +1,5 @@
 """
-URL configuration for e_commerce project.
+URL configuration for task_manager project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/6.0/topics/http/urls/
@@ -15,9 +15,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path,include
+from django.urls import path
+from rest_framework.routers import DefaultRouter
+from api.views import TaskViewSet  # type: ignore
+
+router = DefaultRouter()
+router.register('tasks', TaskViewSet, basename='task')  # Add basename
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',include('api.urls'))
 ]
+
+urlpatterns += router.urls
