@@ -1,25 +1,26 @@
-from rest_framework import serializers
-from .models import Post, Comment
-from django.contrib.auth.models import User
+from rest_framework import serializers 
+from .models import User,Category,Post,Comment,Like
 
-class UserSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.Serializer):
     class Meta:
         model = User
         fields = ['username']
 
+class CategorySerializer(serializers.Serializer):
+    class Meta:
+        model = Category
+        fields = ['name']
 
-class CommentSerializer(serializers.ModelSerializer):
-    author = UserSerializer(read_only=True)
+class PostSerializer(serializers.Serializer):
+    author = UserSerializer(read_only = True)
+    posts = CategorySerializer(read_only = True)
+    
+    class Meta: 
+        mdoel = Post
+        fields = ['title','author','posts']
 
+class CommentSerializer(serializers.Serializer):
+    post = PostSerializer(read_only = True,many = True)
     class Meta:
         model = Comment
-        fields = ['id', 'content', 'comment_author']
-
-
-class PostSerializer(serializers.ModelSerializer):
-    author = UserSerializer(read_only=True)
-    comments = CommentSerializer(read_only=True, many=True)
-
-    class Meta:
-        model = Post
-        fields = ['id', 'title', 'content', 'post_author', 'comments']
+        fields = ['content','author','post']
