@@ -5,6 +5,12 @@ from .models import Post,Comment
 class PostListCreateView(generics.ListCreateAPIView):
      queryset = Post.objects.all()
      serializer_class = PostSerializer
-     permission_classes = permissions.IsAuthenticated
-    
-    def 
+     permission_classes = [permissions.IsAuthenticated]
+
+     def perform_create(self, serializer):
+         serializer.save(author = self.request.user)
+         
+class PostDetailView(generics.RetrieveUpdateDestroyAPIView):
+     queryset = Post.objects.all()
+     serializer_class = PostSerializer
+     permission_classes = [permissions.IsAuthenticated]
