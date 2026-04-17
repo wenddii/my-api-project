@@ -7,16 +7,23 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ['username']
 
-class ThreadSerializer(serializers.ModelSerializer):
-    author = UserSerializer(read_only = True)
-    class Meta:
-        model = Thread
-        fields = ['title','description','author','created_at','updated_at']
-
+  
 class ReplySerializer(serializers.ModelSerializer):
-    thread = ThreadSerializer(read_only = True,many = True)
     author = UserSerializer(read_only = True)
 
     class Meta:
         model = Reply 
-        fields = ['id','thread','author']
+        fields = ['id','author']
+
+class ThreadSerializer(serializers.ModelSerializer):
+    author = UserSerializer(read_only = True)
+    replies = ReplySerializer(many = True)
+    class Meta:
+        model = Thread
+        fields = ['title','description','author','created_at','updated_at']
+    def validate_title(self,value):
+        if not value.strip():
+            raise ValueError("title can't be empty")
+        elif value.len() < 3:
+            raise ValueError("title can't be less than three characters")
+        return value

@@ -8,6 +8,7 @@ class Thread(models.Model):
     created_at = models.DateTimeField(auto_now_add= True)
     updated_at = models.DateTimeField(auto_now=True)
 class Reply(models.Model):
-    id = models.IntegerField(unique=True)
     thread = models.ForeignKey(Thread,on_delete=models.CASCADE,related_name = "replies")
     author = models.ForeignKey(User,on_delete=models.CASCADE,related_name="replies")
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
