@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Threads</title>
+</head>
+<body>
+    <h1>All Threads</h1>
+    <ul>
+        {% for thread in threads %}
+            <li>
+                <a href="{% url 'thread_detail' slug=thread.slug %}">
+                    {{ thread.title }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
